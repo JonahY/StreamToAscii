@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['StreamToAscii.py'],
-             pathex=['C:\\Users\\Yuan\\Desktop\\autogui'],
+             pathex=['C:\\Users\\Yuan\\Desktop\\StreamToAscii'],
              binaries=[],
              datas=[],
              hiddenimports=[],
