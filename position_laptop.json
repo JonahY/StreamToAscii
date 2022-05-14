@@ -1,0 +1,60 @@
+{
+  "locations_dialog": {
+    "Dir": [1354, 326],
+    "Search": [1550, 325],
+    "Search Enter": [1630, 325],
+    "Search Result": [1500, 412],
+    "Output Name": [1240, 710],
+    "Screenshot Input File Name": [522, 375],
+    "Screenshot Input Location": [1299, 414],
+    "Screenshot Search": [727, 481],
+    "Screenshot Output File Name": [521, 376],
+    "Screenshot Output Location": [1299, 410]
+  },
+  "locations_software": {
+    "locations_center": {
+      "WFS": [790, 415],
+      "Produce ASCII Output File": [790, 461],
+      "Show Message Precessing Window": [790, 519],
+      "Input File Name": [784, 570],
+      "Output File Name Prefix": [781, 627],
+      "Convert": [1085, 419],
+      "Input Browse": [1095, 570],
+      "Output Browse": [1095, 630],
+      "Screenshot": [830, 660]
+    },
+    "locations_centerRight": {
+      "WFS": [1200, 415],
+      "Produce ASCII Output File": [1200, 461],
+      "Show Message Precessing Window": [1203, 519],
+      "Input File Name": [1194, 570],
+      "Output File Name Prefix": [1191, 627],
+      "Convert": [1495, 419],
+      "Input Browse": [1505, 570],
+      "Output Browse": [1505, 630],
+      "Screenshot": [1240, 660]
+    },
+    "locations_centerUpper": {
+      "WFS": [790, 75],
+      "Produce ASCII Output File": [790, 121],
+      "Show Message Precessing Window": [790, 179],
+      "Input File Name": [784, 230],
+      "Output File Name Prefix": [781, 287],
+      "Convert": [1085, 79],
+      "Input Browse": [1095, 230],
+      "Output Browse": [1095, 290],
+      "Screenshot": [830, 320]
+    },
+    "locations_centerUpperRight": {
+      "WFS": [1200, 75],
+      "Produce ASCII Output File": [1200, 121],
+      "Show Message Precessing Window": [1203, 179],
+      "Input File Name": [1194, 230],
+      "Output File Name Prefix": [1191, 287],
+      "Convert": [1495, 79],
+      "Input Browse": [1505, 230],
+      "Output Browse": [1505, 290],
+      "Screenshot": [1240, 320]
+    }
+  }
+}
