@@ -3,8 +3,8 @@
 block_cipher = None
 
 
-a = Analysis(['StreamToAscii.py'],
-             pathex=['C:\\Users\\Yuan\\Desktop\\StreamToAscii'],
+a = Analysis(['Statistics.py'],
+             pathex=['C:\\Users\\Yuan\\Desktop\\StreamToAscii\\Statistics'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='StreamToAscii(Parallel)',
+          name='Statistics',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

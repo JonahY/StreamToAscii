@@ -548,14 +548,14 @@ if __name__ == '__main__':
                     "enter \033[1;31;40m[reconvert]\033[0m to Reconvert ASCII To Mat, "
                     "enter \033[1;31;40m[detect]\033[0m to Detect AE Events From Mat, "
                     "enter \033[1;31;40m[quit]\033[0m to close: ")
-        if ans.strip() == 'check':
+        if ans.strip().lower() == 'check':
             x, y = position()
             print(f'\033[1;34mCurrent position: [{x}, {y}]\033[0m')
-        elif ans.strip() == 'convert':
+        elif ans.strip().lower() == 'convert':
             stream2ascii()
-        elif ans.strip() == 'reconvert':
+        elif ans.strip().lower() == 'reconvert':
             ascii2mat()
-        elif ans.strip() == 'detect':
+        elif ans.strip().lower() == 'detect':
             detect()
-        elif ans.strip() == 'quit':
+        elif ans.strip().lower() == 'quit':
             sys.exit(0)
