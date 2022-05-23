@@ -1,0 +1,9 @@
+1. 在此脚本目录创建[Statistics.json]
+2. [Statistics.json]中配置模板（#及其后的文字删除）：
+{
+  "features": "Energy",				#Energy、Amplitude、Duration其中之一
+  "absolute of file": "C:\\Users\\Yuan\\Desktop\\test.txt",	#目标文件的绝对路径，txt只包含数值
+  "save path": "C:\\Users\\Yuan\\Desktop",		#计算结果存储路径
+  "interval number": 8				#计算PDF时每量级的格子数量
+}
+3. 每次更新[Statistics.json]中的配置后，无需重启脚本
