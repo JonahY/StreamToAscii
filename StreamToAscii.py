@@ -3,9 +3,8 @@
 @author: Jonah
 @file: StreamToAscii.py
 @Created time: 2022/05/14 20:00
-@Last Modified: 2022/05/14 23:40
+@Last Modified: 2022/05/23 21:05
 """
-
 import sys
 from pyautogui import doubleClick, click, screenshot, typewrite, press, position
 from time import sleep, asctime, localtime, time
@@ -20,6 +19,11 @@ from traceback import format_exc
 import numpy as np
 from multiprocessing import Pool, freeze_support
 from math import ceil
+from os import system
+import colorama
+
+system("")
+colorama.init(autoreset=True)
 
 
 def app_path():
@@ -38,7 +42,7 @@ def convert_ascii2mat(files, asciiFold, matFold, magnification_dB):
         pbar = tqdm(files, ncols=100)
 
         for file in pbar:
-            pbar.set_description('File name: %s' % file[43:-4])
+            pbar.set_description(f'\033[1;34mFile name: {file[43:-4]}\033[0m')
 
             if not exists(join(matFold, f'{file[:-4]}.mat')):
                 with open(join(asciiFold, file), 'r') as f:
@@ -58,7 +62,7 @@ def convert_ascii2mat(files, asciiFold, matFold, magnification_dB):
                 f.write(f'{file}\n')
 
     except Exception as e:
-        print('Error: %s' % e)
+        print(f'\033[1;34mError: {e}\033[0m')
         print(format_exc())
 
 
@@ -89,7 +93,7 @@ def shortTermEny_zerosCrossingRate(signal, framelen, stride, fs, window='hamming
     try:
         windows = allWindows[window]
     except:
-        print("Please select window's function from: hamming, hanning, blackman and bartlett.")
+        print("\033[1;34mPlease select window's function from: hamming, hanning, blackman and bartlett.\033[0m")
         return t, eny, res
 
     for i in range(nf):
@@ -181,7 +185,7 @@ def cut_stream(files, matFold, eventFold, featuresMatFold, staWin, staLen, overl
     try:
         pbar = tqdm(files, ncols=100)
         for file in pbar:
-            pbar.set_description(f'File name: {file[43:-4]}')
+            pbar.set_description(f'\033[1;34mFile name: {file[43:-4]}\033[0m')
 
             dataMat = loadmat(join(matFold, file))
             fs = dataMat['Sampling rate'][0][0]
@@ -195,9 +199,9 @@ def cut_stream(files, matFold, eventFold, featuresMatFold, staWin, staLen, overl
 
                 # save calculated values
                 savemat(join(featuresMatFold, file), {'Trigger time': trigger_time, 'StaWin': staWin,
-                                                           'StaLen': staLen, 'Overlap': overlap, 'Width': width,
-                                                           'Stride': stride, 't_stE': t_stE, 'stE': stE,
-                                                           'stE_dev': stE_dev, 'zcR': zcR})
+                                                      'StaLen': staLen, 'Overlap': overlap, 'Width': width,
+                                                      'Stride': stride, 't_stE': t_stE, 'stE': stE,
+                                                      'stE_dev': stE_dev, 'zcR': zcR})
 
             else:
                 featuresMat = loadmat(join(featuresMatFold, file))
@@ -218,15 +222,14 @@ def cut_stream(files, matFold, eventFold, featuresMatFold, staWin, staLen, overl
                 f.write('%s\n' % file)
 
     except Exception as e:
-        print('Error: %s' % e)
+        print(f'\033[1;34mError: {e}\033[0m')
         print(format_exc())
 
 
 def stream2ascii():
     if not exists(join(PROJECT_PATH, 'position.json')):
-        print(
-            'Config File Not Found!\nPlease Add Configuration File [position.json] In This Directory.\nThis terminal '
-            'will closed in 5s...')
+        print('\033[1;34mConfig File Not Found!\nPlease Add Configuration File [position.json] In This Directory.\n'
+              'This terminal will closed in 5s...\033[0m')
         sleep(5)
         sys.exit(0)
 
@@ -237,13 +240,13 @@ def stream2ascii():
     OUTPUT = js['OUTPUT']
 
     if not exists(INPUT):
-        print('Please Enter Correct Input Path!\nThis terminal will closed in 5s...')
+        print('\033[1;34mPlease Enter Correct Input Path!\nThis terminal will closed in 5s...\033[0m')
         sleep(5)
         sys.exit(0)
 
     while True:
-        ans = input(
-            "Please move this terminal to a suitable location, enter [yes] to continue, enter [quit] to close: ")
+        ans = input("\033[1;34mPlease move this terminal to a suitable location, enter [yes] to continue, "
+                    "enter [quit] to close: \033[0m")
         if ans.strip() == 'yes':
             break
         elif ans.strip() == 'quit':
@@ -278,7 +281,7 @@ def stream2ascii():
                 F = [files[i + j] for j in range(len(LOCATIONS))]
             except IndexError:
                 F = [files[i + j] for j in range(len(files) % len(LOCATIONS))]
-            pbar.set_description(f'Processing [{F}]')
+            pbar.set_description(f'\033[1;34mProcessing [{F}]\033[0m')
 
             if first:
                 for locations in LOCATIONS:
@@ -391,17 +394,16 @@ def stream2ascii():
                     else:
                         sleep(2)
     except (KeyError, Exception, BaseException) as e:
-        print(
-            f"Error: '{e}'\nPlease check the parameters in the configuration file!\nThis terminal will closed in 5s...")
+        print(f"\033[1;34mError: '{e}'\nPlease check the parameters in the configuration file!\n"
+              f"This terminal will closed in 5s...\033[0m")
         sleep(5)
         sys.exit(0)
 
 
 def ascii2mat():
     if not exists(join(PROJECT_PATH, 'stream.json')):
-        print(
-            'Config File Not Found!\nPlease Add Configuration File [stream.json] In This Directory.\nThis terminal '
-            'will closed in 5s...')
+        print('\033[1;34mConfig File Not Found!\nPlease Add Configuration File [stream.json] In This Directory.\n'
+              'This terminal will closed in 5s...\033[0m')
         sleep(5)
         sys.exit(0)
 
@@ -414,13 +416,13 @@ def ascii2mat():
         processor = js['processor']
         magnification_dB = js['magnification_dB']
     except (KeyError, Exception, BaseException) as e:
-        print(
-            f"Error: '{e}'\nPlease check the parameters in the configuration file!\nThis terminal will closed in 5s...")
+        print(f"\033[1;34mError: '{e}'\nPlease check the parameters in the configuration file!\n"
+              f"This terminal will closed in 5s...\033[0m")
         sleep(5)
         sys.exit(0)
 
     if not exists(asciiFold):
-        print('Please Enter Correct Path of Stream Fold!\nThis terminal will closed in 5s...')
+        print('\033[1;34mPlease Enter Correct Path of Stream Fold!\nThis terminal will closed in 5s...\033[0m')
         sleep(5)
         sys.exit(0)
 
@@ -433,7 +435,7 @@ def ascii2mat():
     with open(join(matFold, 'log'), 'a') as f:
         f.write('Converted Files\n')
 
-    print("=" * 47 + " Start " + "=" * 46)
+    print("\033[1;34m" + "=" * 47 + " Start " + "=" * 46 + "\033[0m")
     start = time()
 
     # Multiprocessing acceleration
@@ -445,16 +447,16 @@ def ascii2mat():
     pool.join()
 
     end = time()
-    print("=" * 46 + " Report " + "=" * 46)
-    print("Calculation Info--Quantity of streaming data: %s" % len(file_list))
-    print("Finishing time: {}  |  Time consumption: {:.3f} min".format(asctime(localtime(time())), (end - start) / 60))
+    print("\033[1;34m" + "=" * 46 + " Report " + "=" * 46 + "\033[0m")
+    print("\033[1;34mCalculation Info--Quantity of streaming data: %s\033[0m" % len(file_list))
+    print("\033[1;34mFinishing time: {}  |  Time consumption: {:.3f} min\033[0m".format(asctime(localtime(time())),
+                                                                                        (end - start) / 60))
 
 
 def detect():
     if not exists(join(PROJECT_PATH, 'stream.json')):
-        print(
-            'Config File Not Found!\nPlease Add Configuration File [stream.json] In This Directory.\nThis terminal '
-            'will closed in 5s...')
+        print('\033[1;34mConfig File Not Found!\nPlease Add Configuration File [stream.json] In This Directory.\n'
+              'This terminal will closed in 5s...\033[0m')
         sleep(5)
         sys.exit(0)
 
@@ -477,13 +479,13 @@ def detect():
         backNoiseTime = js['backNoiseTime']
         featuresMatFold = f'{featuresMatFold}_sL{staLen}_oL{overlap}'
     except (KeyError, Exception, BaseException) as e:
-        print(
-            f"Error: '{e}'\nPlease check the parameters in the configuration file!\nThis terminal will closed in 5s...")
+        print(f"\033[1;34mError: '{e}'\nPlease check the parameters in the configuration file!\n"
+              f"This terminal will closed in 5s...\033[0m")
         sleep(5)
         sys.exit(0)
 
     if not exists(matFold):
-        print('Please Enter Correct Path of Mat Fold!\nThis terminal will closed in 5s...')
+        print('\033[1;34mPlease Enter Correct Path of Mat Fold!\nThis terminal will closed in 5s...\033[0m')
         sleep(5)
         sys.exit(0)
 
@@ -515,7 +517,7 @@ def detect():
         f.write('BackNoise time\t%d\n\n' % backNoiseTime)
         f.write('Calculated Files\n')
 
-    print("=" * 47 + " Start " + "=" * 46)
+    print("\033[1;34m" + "=" * 47 + " Start " + "=" * 46 + "\033[0m")
     start = time()
 
     if parallel:
@@ -532,20 +534,23 @@ def detect():
                    featuresMatFold, staWin, staLen, overlap, IZCRT, ITU, alpha, backNoiseTime)
 
     end = time()
-    print("=" * 46 + " Report " + "=" * 46)
-    print("Calculation Info--Quantity of streaming data: %s" % len(file_list))
-    print("Finishing time: {}  |  Time consumption: {:.3f} min".format(asctime(localtime(time())), (end - start) / 60))
+    print("\033[1;34m" + "=" * 46 + " Report " + "=" * 46 + "\033[0m")
+    print("\033[1;34mCalculation Info--Quantity of streaming data: %s\033[0m" % len(file_list))
+    print("\033[1;34mFinishing time: {}  |  Time consumption: {:.3f} min\033[0m".format(asctime(localtime(time())),
+                                                                                        (end - start) / 60))
 
 
 if __name__ == '__main__':
     freeze_support()
     while True:
-        ans = input("Please select an execution mode, enter [check] to Check Mouse Coordinates, "
-                    "enter [convert] to Convert Stream To ASCII, enter [reconvert] to Reconvert ASCII To Mat, "
-                    "enter [detect] to Detect AE Events From Mat, enter [quit] to close: ")
+        ans = input("Please select an execution mode, enter \033[1;31;40m[check]\033[0m to Check Mouse Coordinates, "
+                    "enter \033[1;31;40m[convert]\033[0m to Convert Stream To ASCII, "
+                    "enter \033[1;31;40m[reconvert]\033[0m to Reconvert ASCII To Mat, "
+                    "enter \033[1;31;40m[detect]\033[0m to Detect AE Events From Mat, "
+                    "enter \033[1;31;40m[quit]\033[0m to close: ")
         if ans.strip() == 'check':
             x, y = position()
-            print(f'Current position: [{x}, {y}]')
+            print(f'\033[1;34mCurrent position: [{x}, {y}]\033[0m')
         elif ans.strip() == 'convert':
             stream2ascii()
         elif ans.strip() == 'reconvert':
