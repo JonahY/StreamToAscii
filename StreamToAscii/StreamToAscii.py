@@ -3,7 +3,7 @@
 @author: Jonah
 @file: StreamToAscii.py
 @Created time: 2022/05/14 20:00
-@Last Modified: 2022/05/24 16:41
+@Last Modified: 2022/05/25 10:30
 """
 import sys
 from pyautogui import doubleClick, click, screenshot, typewrite, press, position
@@ -326,7 +326,7 @@ def stream2ascii():
 
                 click(x=locations_fixed['Search'][0], y=locations_fixed['Search'][1], duration=0)
                 sleep(1)
-                typewrite(message=f[:-4], interval=0)
+                typewrite(message=f[:-4] if js['Data Location'] == 'PC' else f, interval=0)
                 sleep(0.5)
                 click(x=locations_fixed['Search Enter'][0], y=locations_fixed['Search Enter'][1], duration=0)
                 screenshotTmp_Search = join(screenshotsPath_Search, f'{f[:-4]}.png')

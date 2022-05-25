@@ -2,8 +2,9 @@
 2. [position.json]用于自动导出PAC系统的wfs波形文件，[stream.json]用于计算导出的波形流数据
 3. [position.json]中配置模板（#及其后的文字删除）：
 {
-  "INPUT": "",	#PAC系统的wfs波形文件的绝对路径
-  "OUTPUT": "",	#ASCII波形流文件的存储路径
+  "INPUT": "",			#PAC系统的wfs波形文件的绝对路径
+  "OUTPUT": "",			#ASCII波形流文件的存储路径
+  "Data Location": "",			#*.wfs文件存储的物理位置，本机对应[PC]，外置硬盘对应[Disk]
   "locations_dialog": {
     "Dir": [],				#StreamToAscii软件输入对话框中的文件路径坐标
     "Search": [],			#StreamToAscii软件输入对话框中的搜索框坐标
