@@ -3,7 +3,7 @@
 @author: Jonah
 @file: Statistics.py
 @Created time: 2022/05/23 21:19
-@Last Modified: 2022/05/23 22:30
+@Last Modified: 2022/05/25 18:34
 """
 import sys
 from os import makedirs
@@ -18,6 +18,7 @@ from time import sleep
 from warnings import filterwarnings
 from os import system
 import colorama
+from traceback import format_exc
 
 
 def app_path():
@@ -84,9 +85,9 @@ class Features:
             sleep(5)
             sys.exit(0)
 
-        with open(join(PROJECT_PATH, 'Statistics.json'), 'r', encoding='utf-8') as f:
-            js = load(f)
         try:
+            with open(join(PROJECT_PATH, 'Statistics.json'), 'r', encoding='utf-8') as f:
+                js = load(f)
             self.mode = js['features']
             if self.mode not in ['Energy', 'Amplitude', 'Duration']:
                 print(f"\033[1;34mError: 'features'\nPlease check the parameters in the configuration file!\n"
@@ -103,6 +104,7 @@ class Features:
             if not exists(join(PROJECT_PATH, self.save_path)):
                 makedirs(self.save_path)
             self.INTERVAL_NUM = int(js['interval number'])
+            self.plot = js['plot']
         except (KeyError, Exception, BaseException) as e:
             print(f"\033[1;34mError: {e}\nPlease check the parameters in the configuration file!\n"
                   f"This terminal will closed in 5s...\033[0m")
@@ -169,47 +171,47 @@ class Features:
         Calculate Probability Density Distribution Function
         :return:
         """
-        fig = plt.figure(figsize=[6, 3.9])
-        ax = plt.subplot()
+
         inter = self.__cal_log_interval(self.tmp)
         xx, yy = self.__cal_log(self.tmp, inter, self.INTERVAL_NUM)
-        ax.loglog(xx, yy, '.', marker='.', markersize=8, color='black')
         with open(join(self.save_path, f'PDF({self.xlabel[0].upper()}).txt'), 'w') as f:
             f.write(f'{self.xlabel}, PDF({self.xlabel[0].upper()})\n')
             for j in range(len(xx)):
                 f.write(f'{xx[j]}, {yy[j]}\n')
-        plot_norm(ax, self.xlabel, f'PDF({self.xlabel[0].upper()})', legend=False)
-        plt.show()
+        if self.plot:
+            fig = plt.figure(figsize=[6, 3.9])
+            ax = plt.subplot()
+            ax.loglog(xx, yy, '.', marker='.', markersize=8, color='black')
+            plot_norm(ax, self.xlabel, f'PDF({self.xlabel[0].upper()})', legend=False)
+            plt.show()
 
     def cal_CCDF(self):
         """
         Calculate Complementary Cumulative Distribution Function
         :return:
         """
-        fig = plt.figure(figsize=[6, 3.9])
-        ax = plt.subplot()
         N = len(self.tmp)
         xx, yy = [], []
         for i in range(N - 1):
             xx.append(np.mean([self.tmp[i], self.tmp[i + 1]]))
             yy.append((N - i + 1) / N)
-        ax.loglog(xx, yy, color='black')
         with open(join(self.save_path, f'CCDF({self.xlabel[0].upper()}).txt'), 'w') as f:
             f.write(f'{self.xlabel}, CCDF({self.xlabel[0].upper()})\n')
             for j in range(len(xx)):
                 f.write(f'{xx[j]}, {yy[j]}\n')
-        plot_norm(ax, self.xlabel, f'CCDF({self.xlabel[0].upper()})', legend=False)
-        plt.show()
+        if self.plot:
+            fig = plt.figure(figsize=[6, 3.9])
+            ax = plt.subplot()
+            ax.loglog(xx, yy, color='black')
+            plot_norm(ax, self.xlabel, f'CCDF({self.xlabel[0].upper()})', legend=False)
+            plt.show()
 
     def cal_ML(self):
         """
         Calculate the maximum likelihood function distribution
         :return:
         """
-        fig = plt.figure(figsize=[6, 3.9])
-        ax = plt.subplot()
         N = len(self.tmp)
-        ax.set_xscale("log", nonposx='clip')
         ML_y, Error_bar = [], []
         for j in range(N):
             valid_x = self.tmp[j:]
@@ -220,13 +222,18 @@ class Features:
             error_bar = (alpha - 1) / pow(N_prime, 0.5)
             ML_y.append(alpha)
             Error_bar.append(error_bar)
-        ax.errorbar(self.tmp, ML_y, yerr=Error_bar, fmt='o', ecolor='black', color='black', elinewidth=1, capsize=2, ms=3)
         with open(join(self.save_path, f'ML({self.xlabel[0].upper()}).txt'), 'w') as f:
             f.write(f'{self.xlabel}, ML({self.xlabel[0].upper()}), Error bar\n')
             for j in range(len(ML_y)):
                 f.write(f'{self.tmp[j]}, {ML_y[j]}, {Error_bar[j]}\n')
-        plot_norm(ax, self.xlabel, f'ML({self.xlabel[0].upper()})', y_lim=[1.3, 3.0], legend=False)
-        plt.show()
+        if self.plot:
+            fig = plt.figure(figsize=[6, 3.9])
+            ax = plt.subplot()
+            ax.set_xscale("log", nonposx='clip')
+            ax.errorbar(self.tmp, ML_y, yerr=Error_bar, fmt='o', ecolor='black', color='black', elinewidth=1, capsize=2,
+                        ms=3)
+            plot_norm(ax, self.xlabel, f'ML({self.xlabel[0].upper()})', y_lim=[1.3, 3.0], legend=False)
+            plt.show()
 
 
 if __name__ == '__main__':
@@ -235,11 +242,15 @@ if __name__ == '__main__':
                     "enter \033[1;31;40m[CCDF]\033[0m to Calculate CCDF, "
                     "enter \033[1;31;40m[ML]\033[0m to Calculate ML, "
                     "enter \033[1;31;40m[quit]\033[0m to close: ")
-        if ans.strip().upper() == 'PDF':
-            Features().cal_PDF()
-        elif ans.strip().upper() == 'CCDF':
-            Features().cal_CCDF()
-        elif ans.strip().upper() == 'ML':
-            Features().cal_ML()
-        elif ans.strip().lower() == 'quit':
-            sys.exit(0)
+        try:
+            if ans.strip().upper() == 'PDF':
+                Features().cal_PDF()
+            elif ans.strip().upper() == 'CCDF':
+                Features().cal_CCDF()
+            elif ans.strip().upper() == 'ML':
+                Features().cal_ML()
+            elif ans.strip().lower() == 'quit':
+                sys.exit(0)
+        except Exception as e:
+            print(f'\033[1;34mError: {e}\033[0m')
+            print(format_exc())

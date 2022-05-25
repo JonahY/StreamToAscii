@@ -5,5 +5,6 @@
   "absolute of file": "C:\\Users\\Yuan\\Desktop\\test.txt",	#目标文件的绝对路径，txt只包含数值
   "save path": "C:\\Users\\Yuan\\Desktop",		#计算结果存储路径
   "interval number": 8				#计算PDF时每量级的格子数量
+  "plot": 0						#是否画图展示，1为是，0为否，若脚本闪退，将此值改为0
 }
 3. 每次更新[Statistics.json]中的配置后，无需重启脚本
