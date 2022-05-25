@@ -3,7 +3,7 @@
 @author: Jonah
 @file: Statistics.py
 @Created time: 2022/05/23 21:19
-@Last Modified: 2022/05/25 18:34
+@Last Modified: 2022/05/25 18:52
 """
 import sys
 from os import makedirs
@@ -108,6 +108,7 @@ class Features:
         except (KeyError, Exception, BaseException) as e:
             print(f"\033[1;34mError: {e}\nPlease check the parameters in the configuration file!\n"
                   f"This terminal will closed in 5s...\033[0m")
+            print(format_exc())
             sleep(5)
             sys.exit(0)
 
@@ -242,15 +243,11 @@ if __name__ == '__main__':
                     "enter \033[1;31;40m[CCDF]\033[0m to Calculate CCDF, "
                     "enter \033[1;31;40m[ML]\033[0m to Calculate ML, "
                     "enter \033[1;31;40m[quit]\033[0m to close: ")
-        try:
-            if ans.strip().upper() == 'PDF':
-                Features().cal_PDF()
-            elif ans.strip().upper() == 'CCDF':
-                Features().cal_CCDF()
-            elif ans.strip().upper() == 'ML':
-                Features().cal_ML()
-            elif ans.strip().lower() == 'quit':
-                sys.exit(0)
-        except Exception as e:
-            print(f'\033[1;34mError: {e}\033[0m')
-            print(format_exc())
+        if ans.strip().upper() == 'PDF':
+            Features().cal_PDF()
+        elif ans.strip().upper() == 'CCDF':
+            Features().cal_CCDF()
+        elif ans.strip().upper() == 'ML':
+            Features().cal_ML()
+        elif ans.strip().lower() == 'quit':
+            sys.exit(0)
