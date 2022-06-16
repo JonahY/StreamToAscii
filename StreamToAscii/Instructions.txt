@@ -50,7 +50,7 @@
   "first": 1,			#是否为第一次计算ASCII波形流文件，之后调高ITU只针对先前的计算结果，1为是，0为否
   "staLen": 5,		#短时分析窗口长度，单位μs
   "overlap": 1,		#短时分析窗口重叠量，无量纲
-  "staWin": "hamming",	#短时分析窗口函数
+  "staWin": "hamming",	#短时分析窗口函数，可选窗口有：'hamming', 'hanning', 'blackman', 'bartlett'
   "IZCRT": 0.1,		#阈值自适应算法的初始过零率阈值，仅在"backNoiseTime"为0时有效
   "ITU": 650,		#阈值自适应算法的初始短时能量阈值上限
   "alpha": 1.3,		#阈值自适应算法的背景噪声评估加权因子
