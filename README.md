@@ -2,8 +2,8 @@
 
 ## I. StreamToAscii-Parallel
 1. 在此脚本目录创建`position.json`及`stream.json`
-2. [position.json]用于自动导出PAC系统的wfs波形文件，[stream.json]用于计算导出的波形流数据
-3. [position.json]中配置模板（#及其后的文字删除）：
+2. `position.json`用于自动导出PAC系统的wfs波形文件，`stream.json`用于计算导出的波形流数据
+3. `position.json`中配置模板（#及其后的文字删除）：
 ```
 {
   "INPUT": "",			#PAC系统的wfs波形文件的绝对路径
@@ -43,7 +43,7 @@
   }
 }
 ```
-4. [stream.json]中配置模板（#及其后的文字删除）：
+4. `stream.json`中配置模板（#及其后的文字删除）：
 ```
 {
   "asciiFold": "",		#PAC系统的ASCII波形文件的绝对路径
@@ -63,14 +63,14 @@
   "backNoiseTime": 10000	#阈值自适应算法的背景噪声评估时长，单位μs
 }
 ```
-5. 运行模式[check]：定位当前鼠标位置，用于PAC系统wfs文件自动转换的坐标校验。
-6. 运行模式[convert]：用于转换PAC系统*.wfs波形流文件至ASCII波形流文件，每个*.wfs波形流文件只需转换一次，注意储存空间。
-7. 运行模式[reconvert]：用于转换ASCII波形流文件至Mat波形流文件，便于提升后续计算效率，每个ASCII波形流文件只需转换一次，注意储存空间。
-8. 运行模式[detect]：用于执行阈值自适应算法以检测AE事件，会先读取存储特征的Mat波形流文件，检测到的AE事件存储至配置文件中的保存路径。
+5. 运行模式`check`：定位当前鼠标位置，用于PAC系统wfs文件自动转换的坐标校验。
+6. 运行模式`convert`：用于转换PAC系统*.wfs波形流文件至ASCII波形流文件，每个*.wfs波形流文件只需转换一次，注意储存空间。
+7. 运行模式`reconvert`：用于转换ASCII波形流文件至Mat波形流文件，便于提升后续计算效率，每个ASCII波形流文件只需转换一次，注意储存空间。
+8. 运行模式`detect`：用于执行阈值自适应算法以检测AE事件，会先读取存储特征的Mat波形流文件，检测到的AE事件存储至配置文件中的保存路径。
 
 ## II. Statistics
-1. 在此脚本目录创建[Statistics.json]
-2. [Statistics.json]中配置模板（#及其后的文字删除）：
+1. 在此脚本目录创建`Statistics.json`
+2. `Statistics.json`中配置模板（#及其后的文字删除）：
 ```
 {
   "features": "Energy",				#Energy、Amplitude、Duration其中之一
@@ -80,4 +80,4 @@
   "plot": 0						#是否画图展示，1为是，0为否，若脚本闪退，将此值改为0
 }
 ```
-3. 每次更新[Statistics.json]中的配置后，无需重启脚本
+3. 每次更新`Statistics.json`中的配置后，无需重启脚本
